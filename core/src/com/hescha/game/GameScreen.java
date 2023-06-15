@@ -103,7 +103,7 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void update(float delta) {
-        updateFlappee();
+        updateFlappee(delta);
         updateFlowers(delta);
         updateScore();
         if (checkForCollision()) {
@@ -118,8 +118,8 @@ public class GameScreen extends ScreenAdapter {
         score = 0;
     }
 
-    private void updateFlappee() {
-        flappee.update();
+    private void updateFlappee(float delta) {
+        flappee.update(delta);
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             flappee.flyUp();
         }

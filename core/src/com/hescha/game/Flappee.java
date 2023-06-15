@@ -1,6 +1,7 @@
 package com.hescha.game;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -10,19 +11,23 @@ public class Flappee {
     private static final float COLLISION_RADIUS = 24f;
     private static final float DIVE_ACCEL = 0.3f;
     private static final float FLE_ACCEL = 5f;
+    private static final int TILE_WIDTH = 48;
+    private static final int TILE_HEIGHT = 48;
+    private static final float FRAME_DURATION = 0.25F;
 
     private final Circle collisionCircle;
-    private final TextureRegion flappeeTexture;
+    private final Animation animation;
 
     private float x = 0;
     private float y = 0;
     private float ySpeed = 0;
+    private float animationTimer = 0;
 
 
-    private static final int TILE_WIDTH = 48;
-    private static final int TILE_HEIGHT = 48;
     public Flappee(Texture flappeeTexture) {
-        this.flappeeTexture = new TextureRegion(flappeeTexture).split(TILE_WIDTH, TILE_HEIGHT)[0][0];
+        TextureRegion[][] flappeeTextures = new TextureRegion(flappeeTexture).split(TILE_WIDTH, TILE_HEIGHT);
+        animation = new Animation(FRAME_DURATION, flappeeTextures[0][0], flappeeTextures[0][1]);
+        animation.setPlayMode(Animation.PlayMode.LOOP);
         collisionCircle = new Circle(x, y, COLLISION_RADIUS);
     }
 
@@ -31,6 +36,7 @@ public class Flappee {
     }
 
     public void draw(SpriteBatch batch) {
+        TextureRegion flappeeTexture = (TextureRegion) animation.getKeyFrame(animationTimer);
         float textureX = collisionCircle.x - flappeeTexture.getRegionWidth() / 2;
         float textureY = collisionCircle.y - flappeeTexture.getRegionHeight() / 2;
         batch.draw(flappeeTexture, textureX, textureY);
@@ -47,13 +53,14 @@ public class Flappee {
         collisionCircle.setY(y);
     }
 
-    public void update() {
+    public void update(float delta) {
+        animationTimer += delta;
         ySpeed -= DIVE_ACCEL;
         setPosition(x, y + ySpeed);
     }
 
-    public void flyUp(){
-        ySpeed=FLE_ACCEL;
+    public void flyUp() {
+        ySpeed = FLE_ACCEL;
         setPosition(x, y + ySpeed);
     }
 
