@@ -18,6 +18,7 @@ public class Flower {
 
     private float x;
     private float y;
+    private boolean pointClaimed = false;
 
     private final Circle floorCollisionCircle;
     private final Rectangle floorCollisionRectangle;
@@ -70,6 +71,13 @@ public class Flower {
                 || Intersector.overlaps(flappeeCollisionCircle, floorCollisionCircle)
                 || Intersector.overlaps(flappeeCollisionCircle, ceilingCollisionRectangle)
                 || Intersector.overlaps(flappeeCollisionCircle, floorCollisionRectangle);
+    }
+
+    public boolean isPointClaimed() {
+        return pointClaimed;
+    }
+    public void markPointClaimed() {
+        pointClaimed = true;
     }
 
     public float getX() {
