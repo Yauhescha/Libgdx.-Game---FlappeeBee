@@ -1,5 +1,7 @@
 package com.hescha.game;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
@@ -25,7 +27,13 @@ public class Flower {
     private final Circle ceilingCollisionCircle;
     private final Rectangle ceilingCollisionRectangle;
 
-    public Flower() {
+    private final Texture floorTexture;
+    private final Texture ceilingTexture;
+
+    public Flower(Texture floorTexture, Texture ceilingTexture) {
+        this.floorTexture = floorTexture;
+        this.ceilingTexture = ceilingTexture;
+
         this.y = MathUtils.random(HEIGHT_OFFSET);
         this.floorCollisionRectangle = new Rectangle(x, y, COLLISION_RECTANGLE_WIDTH, COLLISION_RECTANGLE_HEIGHT);
         this.floorCollisionCircle = new Circle(x + floorCollisionRectangle.width / 2, y + floorCollisionRectangle.height, COLLISION_CIRCLE_RADIUS);
@@ -38,11 +46,6 @@ public class Flower {
         updateCollisionCircle();
         updateCollisionRectangle();
     }
-
-//    private void updateCollisionCircle() {
-//        floorCollisionCircle.setX(x + floorCollisionRectangle.width / 2);
-//        floorCollisionCircle.setY(y + floorCollisionRectangle.height);
-//    }
 
     private void updateCollisionCircle() {
         floorCollisionCircle.setX(x + floorCollisionRectangle.width / 2);
@@ -61,12 +64,28 @@ public class Flower {
         shapeRenderer.rect(ceilingCollisionRectangle.x, ceilingCollisionRectangle.y, ceilingCollisionRectangle.width, ceilingCollisionRectangle.height);
     }
 
+    public void draw(SpriteBatch batch) {
+        drawFloorFlower(batch);
+        drawCeilingFlower(batch);
+    }
+
+    private void drawFloorFlower(SpriteBatch batch) {
+        float textureX = floorCollisionCircle.x - floorTexture.getWidth() / 2;
+        float textureY = floorCollisionRectangle.getY() + COLLISION_CIRCLE_RADIUS;
+        batch.draw(floorTexture, textureX, textureY);
+    }
+    private void drawCeilingFlower(SpriteBatch batch) {
+        float textureX = ceilingCollisionCircle.x -  ceilingTexture.getWidth() / 2;
+        float textureY = ceilingCollisionRectangle.getY() - COLLISION_CIRCLE_RADIUS;
+        batch.draw(ceilingTexture, textureX, textureY);
+    }
+
     public void update(float delta) {
         setPosition(x - (MAX_SPEED_PER_SECOND * delta));
     }
 
     public boolean isFlappeeColliding(Flappee flappee) {
-        Circle flappeeCollisionCircle = flappee.getCollisonCircle();
+        Circle flappeeCollisionCircle = flappee.getCollisionCircle();
         return Intersector.overlaps(flappeeCollisionCircle, ceilingCollisionCircle)
                 || Intersector.overlaps(flappeeCollisionCircle, floorCollisionCircle)
                 || Intersector.overlaps(flappeeCollisionCircle, ceilingCollisionRectangle)

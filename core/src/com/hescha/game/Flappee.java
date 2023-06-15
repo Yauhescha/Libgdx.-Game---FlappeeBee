@@ -1,5 +1,8 @@
 package com.hescha.game;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 
@@ -7,23 +10,30 @@ public class Flappee {
     private static final float COLLISION_RADIUS = 24f;
     private static final float DIVE_ACCEL = 0.3f;
     private static final float FLE_ACCEL = 5f;
-    private float ySpeed = 0;
 
-    public Circle getCollisonCircle() {
-        return collisonCircle;
-    }
-
-    private final Circle collisonCircle;
+    private final Circle collisionCircle;
+    private final TextureRegion flappeeTexture;
 
     private float x = 0;
     private float y = 0;
+    private float ySpeed = 0;
 
-    public Flappee() {
-        collisonCircle = new Circle(x, y, COLLISION_RADIUS);
+
+    private static final int TILE_WIDTH = 48;
+    private static final int TILE_HEIGHT = 48;
+    public Flappee(Texture flappeeTexture) {
+        this.flappeeTexture = new TextureRegion(flappeeTexture).split(TILE_WIDTH, TILE_HEIGHT)[0][0];
+        collisionCircle = new Circle(x, y, COLLISION_RADIUS);
     }
 
     public void drawDebug(ShapeRenderer shapeRenderer) {
-        shapeRenderer.circle(collisonCircle.x, collisonCircle.y, collisonCircle.radius);
+        shapeRenderer.circle(collisionCircle.x, collisionCircle.y, collisionCircle.radius);
+    }
+
+    public void draw(SpriteBatch batch) {
+        float textureX = collisionCircle.x - flappeeTexture.getRegionWidth() / 2;
+        float textureY = collisionCircle.y - flappeeTexture.getRegionHeight() / 2;
+        batch.draw(flappeeTexture, textureX, textureY);
     }
 
     public void setPosition(float x, float y) {
@@ -33,8 +43,8 @@ public class Flappee {
     }
 
     private void updateCollisionCircle() {
-        collisonCircle.setX(x);
-        collisonCircle.setY(y);
+        collisionCircle.setX(x);
+        collisionCircle.setY(y);
     }
 
     public void update() {
@@ -53,5 +63,9 @@ public class Flappee {
 
     public float getY() {
         return y;
+    }
+
+    public Circle getCollisionCircle() {
+        return collisionCircle;
     }
 }

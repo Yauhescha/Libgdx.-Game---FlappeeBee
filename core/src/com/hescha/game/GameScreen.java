@@ -6,6 +6,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -29,7 +30,12 @@ public class GameScreen extends ScreenAdapter {
     private BitmapFont bitmapFont;
     private GlyphLayout glyphLayout;
 
-    private Flappee flappee = new Flappee();
+    private Texture background;
+    private Texture flowerBottom;
+    private Texture flowerTop;
+    private Texture flappeeTexture;
+
+    private Flappee flappee;
     private Array<Flower> flowers = new Array<>();
     private int score = 0;
 
@@ -40,6 +46,8 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void show() {
+        flappeeTexture = new Texture(Gdx.files.internal("bee.png"));
+        flappee = new Flappee(flappeeTexture);
         flappee.setPosition(WORLD_WIDTH / 4, WORLD_HEIGHT / 2);
 
         camera = new OrthographicCamera();
@@ -50,15 +58,17 @@ public class GameScreen extends ScreenAdapter {
         shapeRenderer = new ShapeRenderer();
         bitmapFont = new BitmapFont();
         glyphLayout = new GlyphLayout();
+
+        background = new Texture(Gdx.files.internal("bg.png"));
+        flowerBottom = new Texture(Gdx.files.internal("flowerBottom.png"));
+        flowerTop = new Texture(Gdx.files.internal("flowerTop.png"));
     }
 
     @Override
     public void render(float delta) {
         clearScreen();
         update(delta);
-
         draw();
-
         drawDebug();
     }
 
@@ -66,7 +76,10 @@ public class GameScreen extends ScreenAdapter {
         batch.setProjectionMatrix(camera.projection);
         batch.setTransformMatrix(camera.view);
         batch.begin();
+        batch.draw(background, 0, 0);
+        flappee.draw(batch);
         drawScore();
+        drawFlowers();
         batch.end();
     }
 
@@ -81,6 +94,12 @@ public class GameScreen extends ScreenAdapter {
         }
 
         shapeRenderer.end();
+    }
+
+    private void drawFlowers() {
+        for (Flower flower : flowers) {
+            flower.draw(batch);
+        }
     }
 
     private void update(float delta) {
@@ -124,7 +143,7 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void createNewFlower() {
-        Flower newFlower = new Flower();
+        Flower newFlower = new Flower(flowerBottom, flowerTop);
         newFlower.setPosition(WORLD_WIDTH + Flower.WIDTH);
         flowers.add(newFlower);
     }
