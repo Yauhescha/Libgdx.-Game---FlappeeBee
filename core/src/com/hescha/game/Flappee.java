@@ -9,6 +9,10 @@ public class Flappee {
     private static final float FLE_ACCEL = 5f;
     private float ySpeed = 0;
 
+    public Circle getCollisonCircle() {
+        return collisonCircle;
+    }
+
     private final Circle collisonCircle;
 
     private float x = 0;

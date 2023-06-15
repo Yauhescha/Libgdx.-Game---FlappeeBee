@@ -2,6 +2,7 @@ package com.hescha.game;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 
@@ -61,6 +62,14 @@ public class Flower {
 
     public void update(float delta) {
         setPosition(x - (MAX_SPEED_PER_SECOND * delta));
+    }
+
+    public boolean isFlappeeColliding(Flappee flappee) {
+        Circle flappeeCollisionCircle = flappee.getCollisonCircle();
+        return Intersector.overlaps(flappeeCollisionCircle, ceilingCollisionCircle)
+                || Intersector.overlaps(flappeeCollisionCircle, floorCollisionCircle)
+                || Intersector.overlaps(flappeeCollisionCircle, ceilingCollisionRectangle)
+                || Intersector.overlaps(flappeeCollisionCircle, floorCollisionRectangle);
     }
 
     public float getX() {

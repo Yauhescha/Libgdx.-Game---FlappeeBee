@@ -69,12 +69,25 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void update(float delta) {
+        updateFlappee();
+        updateFlowers(delta);
+        if (checkForCollision()) {
+            restart();
+        }
+    }
+
+    private void restart() {
+        flappee.setPosition(WORLD_WIDTH / 4, WORLD_HEIGHT / 2);
+        flowers.clear();
+//        score = 0;
+    }
+
+    private void updateFlappee() {
         flappee.update();
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             flappee.flyUp();
         }
         blockFlappeeLeavingTheWorld();
-        updateFlowers(delta);
     }
 
     private void updateFlowers(float delta) {
@@ -110,12 +123,21 @@ public class GameScreen extends ScreenAdapter {
         }
     }
 
-    private void removeFlowersIfPassed(){
-        if(flowers.size>0){
+    private void removeFlowersIfPassed() {
+        if (flowers.size > 0) {
             Flower first = flowers.first();
-            if(first.getX()<-Flower.WIDTH){
+            if (first.getX() < -Flower.WIDTH) {
                 flowers.removeValue(first, true);
             }
         }
+    }
+
+    private boolean checkForCollision() {
+        for (Flower flower : flowers) {
+            if (flower.isFlappeeColliding(flappee)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
