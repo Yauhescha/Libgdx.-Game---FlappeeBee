@@ -3,6 +3,7 @@ package com.hescha.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -13,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Logger;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -23,6 +25,7 @@ public class GameScreen extends ScreenAdapter {
 
     private static final float GAP_BETWEEN_FLOWERS = 200F;
 
+    private final FlappeeBeeGame flappeeBeeGame;
     private ShapeRenderer shapeRenderer;
     private Viewport viewport;
     private Camera camera;
@@ -39,6 +42,10 @@ public class GameScreen extends ScreenAdapter {
     private Array<Flower> flowers = new Array<>();
     private int score = 0;
 
+    public GameScreen(FlappeeBeeGame flappeeBeeGame) {
+        this.flappeeBeeGame = flappeeBeeGame;
+    }
+
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);
@@ -46,7 +53,11 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void show() {
-        flappeeTexture = new Texture(Gdx.files.internal("bee.png"));
+        background = flappeeBeeGame.getAssetManager().get("bg.png");
+        flowerBottom = flappeeBeeGame.getAssetManager().get("flowerBottom.png");
+        flowerTop = flappeeBeeGame.getAssetManager().get("flowerTop.png");
+        flappeeTexture = flappeeBeeGame.getAssetManager().get("bee.png");
+
         flappee = new Flappee(flappeeTexture);
         flappee.setPosition(WORLD_WIDTH / 4, WORLD_HEIGHT / 2);
 
@@ -58,10 +69,6 @@ public class GameScreen extends ScreenAdapter {
         shapeRenderer = new ShapeRenderer();
         bitmapFont = new BitmapFont();
         glyphLayout = new GlyphLayout();
-
-        background = new Texture(Gdx.files.internal("bg.png"));
-        flowerBottom = new Texture(Gdx.files.internal("flowerBottom.png"));
-        flowerTop = new Texture(Gdx.files.internal("flowerTop.png"));
     }
 
     @Override

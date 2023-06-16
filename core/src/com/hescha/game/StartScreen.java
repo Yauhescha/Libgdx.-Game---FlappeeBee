@@ -17,7 +17,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 public class StartScreen extends ScreenAdapter {
     private static final float WORLD_WIDTH = 480;
     private static final float WORLD_HEIGHT = 640;
-    private final Game game;
+    private final FlappeeBeeGame game;
 
     private Texture backgroundTexture;
     private Texture playTexture;
@@ -25,7 +25,7 @@ public class StartScreen extends ScreenAdapter {
     private Texture titleTexture;
     private Stage stage;
 
-    public StartScreen(Game game) {
+    public StartScreen(FlappeeBeeGame game) {
         this.game = game;
     }
 
@@ -49,7 +49,7 @@ public class StartScreen extends ScreenAdapter {
             public void tap(InputEvent event, float x, float y, int count,
                             int button) {
                 super.tap(event, x, y, count, button);
-                game.setScreen(new GameScreen());
+                game.setScreen(new LoadingScreen(game));
                 dispose();
             }
         });
