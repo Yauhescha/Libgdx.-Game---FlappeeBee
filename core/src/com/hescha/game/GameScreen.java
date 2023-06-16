@@ -11,6 +11,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
@@ -33,10 +35,10 @@ public class GameScreen extends ScreenAdapter {
     private BitmapFont bitmapFont;
     private GlyphLayout glyphLayout;
 
-    private Texture background;
-    private Texture flowerBottom;
-    private Texture flowerTop;
-    private Texture flappeeTexture;
+    private TextureRegion background;
+    private TextureRegion flowerBottom;
+    private TextureRegion flowerTop;
+    private TextureRegion flappeeTexture;
 
     private Flappee flappee;
     private Array<Flower> flowers = new Array<>();
@@ -53,10 +55,11 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void show() {
-        background = flappeeBeeGame.getAssetManager().get("bg.png");
-        flowerBottom = flappeeBeeGame.getAssetManager().get("flowerBottom.png");
-        flowerTop = flappeeBeeGame.getAssetManager().get("flowerTop.png");
-        flappeeTexture = flappeeBeeGame.getAssetManager().get("bee.png");
+        TextureAtlas textureAtlas = flappeeBeeGame.getAssetManager().get("flappee_bee_assets.atlas");
+        background = textureAtlas.findRegion("bg");
+        flowerBottom = textureAtlas.findRegion("flowerBottom");
+        flowerTop = textureAtlas.findRegion("flowerTop");
+        flappeeTexture = textureAtlas.findRegion("bee");
 
         flappee = new Flappee(flappeeTexture);
         flappee.setPosition(WORLD_WIDTH / 4, WORLD_HEIGHT / 2);

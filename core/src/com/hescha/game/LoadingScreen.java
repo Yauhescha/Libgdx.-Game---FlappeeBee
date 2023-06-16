@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -35,10 +36,7 @@ public class LoadingScreen extends ScreenAdapter {
         camera.update();
         viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
         shapeRenderer = new ShapeRenderer();
-        flappeeBeeGame.getAssetManager().load("bg.png", Texture.class);
-        flappeeBeeGame.getAssetManager().load("flowerBottom.png", Texture.class);
-        flappeeBeeGame.getAssetManager().load("flowerTop.png", Texture.class);
-        flappeeBeeGame.getAssetManager().load("bee.png", Texture.class);
+        flappeeBeeGame.getAssetManager().load ("flappee_bee_assets.atlas", TextureAtlas.class);
     }
     @Override
     public void render(float delta) {update();
