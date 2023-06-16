@@ -1,6 +1,5 @@
 package com.hescha.game;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Texture;
@@ -57,7 +56,7 @@ public class StartScreen extends ScreenAdapter {
 
         titleTexture = new Texture(Gdx.files.internal("title.png"));
         Image title = new Image(titleTexture);
-        title.setPosition(WORLD_WIDTH /2, 3 * WORLD_HEIGHT / 4, Align.center);
+        title.setPosition(WORLD_WIDTH / 2, 3 * WORLD_HEIGHT / 4, Align.center);
         stage.addActor(title);
     }
 

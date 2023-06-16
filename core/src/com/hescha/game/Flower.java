@@ -1,6 +1,5 @@
 package com.hescha.game;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -16,7 +15,6 @@ public class Flower {
     private static final float MAX_SPEED_PER_SECOND = 100f;
     private static final float HEIGHT_OFFSET = -400f;
     private static final float DISTANCE_BETWEEN_FLOOR_AND_CEILING = 225F;
-
     public static final float WIDTH = COLLISION_CIRCLE_RADIUS * 2;
 
     private float x;
@@ -75,8 +73,9 @@ public class Flower {
         float textureY = floorCollisionRectangle.getY() + COLLISION_CIRCLE_RADIUS;
         batch.draw(floorTexture, textureX, textureY);
     }
+
     private void drawCeilingFlower(SpriteBatch batch) {
-        float textureX = ceilingCollisionCircle.x -  ceilingTexture.getRegionWidth() / 2;
+        float textureX = ceilingCollisionCircle.x - ceilingTexture.getRegionWidth() / 2;
         float textureY = ceilingCollisionRectangle.getY() - COLLISION_CIRCLE_RADIUS;
         batch.draw(ceilingTexture, textureX, textureY);
     }
@@ -96,6 +95,7 @@ public class Flower {
     public boolean isPointClaimed() {
         return pointClaimed;
     }
+
     public void markPointClaimed() {
         pointClaimed = true;
     }

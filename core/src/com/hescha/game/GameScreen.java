@@ -3,11 +3,9 @@ package com.hescha.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -16,7 +14,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Logger;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -199,7 +196,7 @@ public class GameScreen extends ScreenAdapter {
         String scoreAsString = Integer.toString(score);
         glyphLayout.setText(bitmapFont, scoreAsString);
         bitmapFont.draw(batch, scoreAsString,
-                viewport.getWorldWidth()/2 - glyphLayout.width / 2,
+                viewport.getWorldWidth() / 2 - glyphLayout.width / 2,
                 (4 * viewport.getWorldHeight() / 5) - glyphLayout.height / 2);
     }
 }
